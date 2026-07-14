@@ -1,7 +1,7 @@
 from sqlalchemy import Column, Integer, String, ForeignKey
 from sqlalchemy.orm import relationship
 from database import Base
-
+from sqlalchemy import Boolean
 
 class Department(Base):
     __tablename__ = "departments"
@@ -108,3 +108,36 @@ class Enrollment(Base):
         "Course",
         back_populates="enrollments"
     )
+class User(Base):
+
+    __tablename__ = "users"
+
+    id = Column(
+        Integer,
+        primary_key=True,
+        index=True
+    )
+
+    email = Column(
+        String,
+        unique=True,
+        nullable=False
+    )
+
+    hashed_password = Column(
+        String,
+        nullable=False
+    )
+
+    is_active = Column(
+        Boolean,
+        default=True
+    )
+
+    def to_dict(self):
+
+        return {
+            "id": self.id,
+            "email": self.email,
+            "is_active": self.is_active
+        }
